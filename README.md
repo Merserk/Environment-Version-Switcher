@@ -2,6 +2,8 @@
 
 A simple yet powerful PowerShell script to quickly switch between multiple Python versions on your Windows machine. It intelligently scans for existing Python installations and updates your user PATH environment variable to prioritize the version you select.
 
+<img width="1732" height="923" alt="Untitled-2" src="https://github.com/user-attachments/assets/0cf5c076-18e8-45d6-822b-dc47d63c7690" />
+
 ## Overview
 
 For developers working on multiple projects, managing different Python versions can be a challenge. This script automates the process of discovering all Python installations on your system and allows you to select which one should be the default `python` command in your terminal. It directly manipulates the user's PATH variable, ensuring that the selected version's `python.exe` and `Scripts` directory are given top priority.
