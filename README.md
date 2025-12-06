@@ -1,77 +1,281 @@
-# 🐍 Python Version Switcher for Windows ⚙️
+# 🔧 Environment Version Switcher Toolkit for Windows ⚙️
 
-A simple yet powerful PowerShell script to quickly switch between multiple Python versions on your Windows machine. It intelligently scans for existing Python installations and updates your user PATH environment variable to prioritize the version you select.
+A comprehensive suite of PowerShell scripts to quickly switch between multiple versions of Python, CUDA, cuDNN, and Visual Studio BuildTools on your Windows machine. Each tool intelligently scans for existing installations and updates your system environment variables to prioritize the version you select.
 
-<img width="1732" height="923" alt="Untitled-2" src="https://github.com/user-attachments/assets/0cf5c076-18e8-45d6-822b-dc47d63c7690" />
+![Environment Version Switcher](https://img.shields.io/badge/Platform-Windows-blue) ![PowerShell](https://img.shields.io/badge/PowerShell-5.1+-green) ![License](https://img.shields.io/badge/License-MIT-yellow)
 
-## Overview
+## 📋 Overview
 
-For developers working on multiple projects, managing different Python versions can be a challenge. This script automates the process of discovering all Python installations on your system and allows you to select which one should be the default `python` command in your terminal. It directly manipulates the user's PATH variable, ensuring that the selected version's `python.exe` and `Scripts` directory are given top priority.
+Managing multiple development environment versions can be challenging. This toolkit automates the process of discovering installations and switching between them by manipulating environment variables and PATH settings. Perfect for developers working across multiple projects with different toolchain requirements.
 
-The solution consists of two files:
-*   `python_switcher.ps1`: The core PowerShell script that handles detection and path management.
-*   `python_switcher.bat`: A convenient launcher that executes the PowerShell script with the correct policy, making it easy to run.
+## 🎯 What's Included
 
-## ✨ Features
+### 1. 🐍 **Python Version Switcher**
+- Scans multiple locations for Python installations
+- Updates user PATH variable
+- Works with Python Launcher (`py.exe`) installations
+- No administrator privileges required
 
-*   **🔎 Automatic Detection**: Scans multiple common locations to find all installed Python versions, including user-specific, system-wide, and Python Launcher (`py.exe`) installations.
-*   **🚀 Future-Proof**: Not limited to specific Python versions (e.g., Python 3.9, 3.10). It will find any `python.exe` in the searched directories.
-*   **⌨️ Interactive Interface**: Presents a clear, numbered list of found Python installations to choose from.
-*   **🛡️ Safe PATH Management**:
-    *   Intelligently adds the selected Python version and its `Scripts` folder to the beginning of your user PATH for immediate priority.
-    *   Cleans up potential duplicate entries for the selected version before adding it.
-*   **⚡ Immediate Effect**: Updates the PATH for the current terminal session, so you can test the change right away. For the change to be system-wide, a new terminal session is required.
-*   **▶️ User-Friendly Launcher**: Comes with a `.bat` file to handle the PowerShell execution policy, allowing you to run it with a simple double-click.
+### 2. 🎮 **CUDA Version Switcher**
+- Detects all NVIDIA CUDA Toolkit installations
+- Updates `CUDA_PATH` system variable
+- Manages system PATH for CUDA binaries
+- **Requires Administrator privileges**
+
+### 3. 🧠 **cuDNN Version Switcher**
+- Scans `C:\Program Files\NVIDIA\CUDNN` for versions
+- Updates system PATH for cuDNN binaries
+- **Requires Administrator privileges**
+
+### 4. 🏗️ **Visual Studio BuildTools Switcher**
+- Finds all MSVC compiler installations (cl.exe)
+- Supports VS 2019, 2022, and newer versions
+- Updates `cl.exe` system variable and PATH
+- **Requires Administrator privileges**
+
+### 5. 🚀 **Master Launcher (start.bat)**
+- Unified menu interface for all switchers
+- Quick access to any tool
+- Streamlined workflow
 
 ## ✅ Requirements
 
-*   **🖥️ Windows Operating System**: This script is designed for Windows environments.
-*   **🔵 PowerShell**: Pre-installed on modern Windows versions.
-*   **🐍 At least one Python version installed**: The script needs something to find!
+- **🖥️ Windows Operating System**: Windows 10/11 recommended
+- **🔵 PowerShell**: Pre-installed on modern Windows
+- **🔐 Administrator Rights**: Required for CUDA, cuDNN, and VS BuildTools switchers
+- **📦 At least one version installed**: For each tool you want to use
 
-## 🚀 How to Use
+## 🚀 Quick Start
 
-1.  **Download Files**: Place both `python_switcher.ps1` and `python_switcher.bat` in the same directory.
+### Master Launcher (Recommended)
 
-2.  **Run the script**: Simply double-click the `python_switcher.bat` file.
-    *   This will open a PowerShell window.
-    *   Alternatively, you can open a command prompt or PowerShell, navigate to the directory, and run `.\python_switcher.bat`.
+1. **Download all files** to the same directory
+2. **Double-click `start.bat`**
+3. **Select the tool** you want to use from the menu:
 
-3.  **Select a Version**:
-    *   The script will display the currently active Python version and then list all the versions it discovered.
-    *   Enter the number corresponding to the Python version you wish to set as the default.
-    *   Enter `0` to exit without making any changes.
+```
+========================================
+     Environment Version Switcher
+========================================
 
-    ```
-    Current Python version:
-    Python 3.9.8
+   1. Python Version Switcher
+   2. CUDA Version Switcher             (Requires Admin)
+   3. cuDNN Version Switcher            (Requires Admin)
+   4. VS (BuildTools) Version Switcher  (Requires Admin)
 
-    Scanning for Python installations...
+   0. Exit
 
-    Found 3 Python installation(s):
+========================================
+Select an option [0-4]:
+```
 
-    1. Python 3.11.0 - C:\Users\YourUser\AppData\Local\Programs\Python\Python311
-       [User Installation]
-    2. Python 3.9.8 - C:\Program Files\Python39
-       [System Installation]
-    3. Python 3.8.10 - C:\Python38
-       [System Installation]
+### Individual Usage
 
-    0. Exit without changes
+You can also run each switcher independently by double-clicking its `.bat` file:
+- `python_switcher.bat`
+- `cuda_switcher.bat`
+- `cudnn_switcher.bat`
+- `vs_buildtools_switcher.bat`
 
-    Select Python version to set as default (0-3):
-    ```
+## 📖 Detailed Usage
 
-4.  **Confirm**: After selecting a version, you will be asked for confirmation. Type `Y` and press Enter to proceed.
+### 🐍 Python Version Switcher
 
-5.  **Restart Your Terminal**: For the changes to take full effect system-wide, you must **open a new terminal or command prompt session**. The script will update the PATH for the current session, but other open terminals will not be affected.
+**Features:**
+- Scans `%LOCALAPPDATA%\Programs\Python`, `%ProgramFiles%`, and system directories
+- Detects Python Launcher installations
+- Updates user PATH (no admin needed)
+- Removes duplicate entries before adding selected version
 
-## 💡 Notes
+**Example Output:**
+```
+Found 3 Python installation(s):
 
-*   **Administrator Privileges**: While the script is designed to modify the *user* PATH variable and generally doesn't require administrator rights, running as an administrator can help avoid potential permission issues. If you encounter errors, try right-clicking `python_switcher.bat` and selecting "Run as administrator".
-*   **Environment Variables**: This script modifies the `PATH` environment variable for the **current user only**. It does not alter the system-wide `PATH` variable.
-*   **Python Launcher (`py.exe`)**: This script sets the default `python` command. The `py.exe` launcher will still be available and can be used to run specific versions (e.g., `py -3.9 my_script.py`).
+1. Python 3.12.0 - C:\Users\YourUser\AppData\Local\Programs\Python\Python312
+   [User Installation]
+2. Python 3.11.5 - C:\Users\YourUser\AppData\Local\Programs\Python\Python311
+   [User Installation]
+3. Python 3.9.13 - C:\Program Files\Python39
+   [System Installation]
+
+0. Exit without changes
+```
+
+### 🎮 CUDA Version Switcher
+
+**Features:**
+- Detects versions via `CUDA_PATH_V*_*` environment variables
+- Updates `CUDA_PATH` system variable
+- Cleans old CUDA paths from system PATH
+- Adds `bin`, `libnvvp`, `bin\x64`, and `extras\CUPTI\lib64` folders
+- Verifies installation with `nvcc --version`
+
+**Example Output:**
+```
+Found 2 CUDA installation(s):
+
+1. CUDA v13.1 - C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v13.1
+2. CUDA v11.8 - C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v11.8
+
+0. Exit without changes
+```
+
+**Admin Required:** ✅ This tool modifies system environment variables.
+
+### 🧠 cuDNN Version Switcher
+
+**Features:**
+- Scans `C:\Program Files\NVIDIA\CUDNN`
+- Removes old cuDNN paths from system PATH
+- Adds selected version's `bin` folder to PATH
+
+**Example Output:**
+```
+Found 2 cuDNN installation(s):
+
+1. cuDNN v9.0.0.312_cuda12 - C:\Program Files\NVIDIA\CUDNN\v9.0.0.312_cuda12\bin
+2. cuDNN v8.9.7.29_cuda11 - C:\Program Files\NVIDIA\CUDNN\v8.9.7.29_cuda11\bin
+
+0. Exit without changes
+```
+
+**Admin Required:** ✅ This tool modifies system environment variables.
+
+### 🏗️ Visual Studio BuildTools Switcher
+
+**Features:**
+- Scans both `Program Files` and `Program Files (x86)`
+- Finds all VS editions (BuildTools, Community, Professional, Enterprise)
+- Supports VS 2019, 2022, and future versions
+- Sets `cl.exe` system variable
+- Uses `Hostx64\x64` for native 64-bit compilation
+
+**Example Output:**
+```
+Found 2 installation(s):
+
+1. v14.44.35207 - 2022 BuildTools
+   Path: C:\Program Files\Microsoft Visual Studio\2022\BuildTools\VC\Tools\MSVC\14.44.35207\bin\Hostx64\x64
+2. v14.39.33519 - 2022 Community
+   Path: C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.39.33519\bin\Hostx64\x64
+
+0. Exit without changes
+```
+
+**Admin Required:** ✅ This tool modifies system environment variables.
+
+## 🔒 Administrator Privileges
+
+### Tools That Need Admin:
+- ✅ **CUDA Switcher** - Modifies system variables
+- ✅ **cuDNN Switcher** - Modifies system variables
+- ✅ **VS BuildTools Switcher** - Modifies system variables
+
+### Tools That Don't Need Admin:
+- ❌ **Python Switcher** - Only modifies user PATH
+
+When admin is required, the `.bat` launcher will automatically request elevation via UAC prompt.
+
+## 💡 Important Notes
+
+### Environment Variable Scopes
+- **Python Switcher**: Modifies `PATH` for current user only
+- **CUDA/cuDNN/VS Switchers**: Modify system-wide variables (all users)
+
+### Taking Effect
+After switching versions:
+1. **Close and reopen** all Command Prompts, PowerShell windows, and IDEs
+2. **For CUDA/VS tools**: If changes don't take effect, **reboot Windows**
+3. **Current session**: The script updates the current terminal for immediate testing
+
+### Safety Features
+- ✅ Confirmation prompt before making changes
+- ✅ Shows exactly what will be modified
+- ✅ Removes old/duplicate paths to prevent conflicts
+- ✅ Only adds folders that actually exist on disk
+- ✅ Graceful error handling with clear messages
+
+## 🛠️ Troubleshooting
+
+### "No installations found"
+- Ensure the software is installed in standard locations
+- For CUDA: Check if `CUDA_PATH_V*_*` environment variables exist
+- For cuDNN: Check `C:\Program Files\NVIDIA\CUDNN`
+- For VS: Check `C:\Program Files\Microsoft Visual Studio`
+
+### Changes don't take effect
+1. Restart your terminal/IDE completely
+2. Open a **new** Command Prompt or PowerShell window
+3. For system variables (CUDA/VS), try rebooting Windows
+
+### "Requires Administrator privileges" error
+- Right-click the `.bat` file
+- Select **"Run as administrator"**
+- Or use the master launcher which handles elevation automatically
+
+### PowerShell execution policy errors
+- The `.bat` launchers use `-ExecutionPolicy Bypass` flag
+- This bypasses policy for just that session (safe)
+- No permanent system changes needed
+
+## 📁 File Structure
+
+```
+Environment-Switcher/
+├── start.bat                      # Master launcher menu
+├── python_switcher.bat            # Python launcher
+├── python_switcher.ps1            # Python core script
+├── cuda_switcher.bat              # CUDA launcher
+├── cuda_switcher.ps1              # CUDA core script
+├── cudnn_switcher.bat             # cuDNN launcher
+├── cudnn_switcher.ps1             # cuDNN core script
+├── vs_buildtools_switcher.bat     # VS BuildTools launcher
+├── vs_buildtools_switcher.ps1     # VS BuildTools core script
+└── README.md                      # This file
+```
+
+## 🎨 Features Highlight
+
+### Intelligent Path Management
+- Automatically removes duplicate entries
+- Validates folder existence before adding to PATH
+- Prioritizes selected version at the top of PATH
+- Preserves other environment variables
+
+### Future-Proof Design
+- Not hardcoded to specific versions
+- Works with Python 3.x, CUDA 11.x/12.x/13.x+, any VS version
+- Automatically adapts to new installations
+- Version detection via folder scanning and registry checks
+
+### User Experience
+- Color-coded console output for clarity
+- Clear version numbers and paths displayed
+- Numbered selection menus (no typing long paths)
+- Confirmation prompts to prevent accidents
+- Immediate verification of changes
 
 ## ⚠️ Disclaimer
 
-This script modifies your system's environment variables. While it is designed to be safe, please use it at your own risk. It is always a good practice to understand what a script does before running it.
+These scripts modify your system's environment variables. While designed to be safe and include multiple confirmation steps, please use at your own risk. Always understand what a script does before running it with administrator privileges.
+
+**Best Practice:** Test on a non-critical machine first if you're uncertain.
+
+## 📝 Version History
+
+- **v2.0** - Complete toolkit with master launcher
+- **v1.2** - Added VS BuildTools switcher
+- **v1.1** - Added CUDA and cuDNN switchers
+- **v1.0** - Initial Python version switcher
+
+## 🤝 Contributing
+
+Found a bug or have a feature request? Feel free to open an issue or submit a pull request!
+
+## 📄 License
+
+MIT License - Feel free to use, modify, and distribute as needed.
+
+---
+
+**Made with ❤️ for developers who need to juggle multiple environment versions**
